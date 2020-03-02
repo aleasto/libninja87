@@ -10,6 +10,11 @@ out/toy: examples/toy.c include/**/* out/libninja87.so
 	@gcc -Iinclude -Lout -lusb-1.0 -lninja87 -o out/toy examples/toy.c
 	@echo ===== Made out/toy ======
 
+cli: out/ninja87cli
+out/ninja87cli: examples/cli.c include/**/* out/libninja87.so
+	@gcc -Iinclude -Lout -lusb-1.0 -lninja87 -o out/ninja87cli examples/cli.c
+	@echo ===== Made out/ninja87cli ======
+
 clean:
 	@rm -rf out/
 	@echo ===== Cleared out directory =====
@@ -28,4 +33,4 @@ uninstall:
 	@ldconfig
 	@echo ===== Uninstalled libninja87 =====
 
-.PHONY: libninja87 toy clean install uninstall
+.PHONY: libninja87 cli toy clean install uninstall
