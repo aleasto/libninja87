@@ -30,6 +30,13 @@ int main(int argc, char* argv[]) {
     argv[1] = argv[0]; // hack for getopt(argc - 1, &argv[1], ...)
     light_state_init(&state, source);
 
+    // Set some defaults, even if redundant
+    light_state_set_color(&state, COLOR_PRIMARY, "#000000", RAINBOW_OFF);
+    light_state_set_color(&state, COLOR_SECONDARY, "#000000", RAINBOW_OFF);
+    light_state_set_brightness(&state, 6);
+    light_state_set_speed(&state, 2);
+    light_state_set_direction(&state, DIR_RIGHT);
+
     // Parse options
     int opt;
     int long_index = 0;
@@ -120,11 +127,11 @@ int parse_color_string(char* input, enum ColorType* type, char* color, enum Rain
 
 void print_usage(char* program_name) {
     printf("\nUsage:\n");
-    printf("%s {backlight,sidelight} effect\n"
-        "   --color primary,#ffffff[,rainbow]\n"
-        "   --color secondary,#ffffff[,rainbow]\n"
-        "   --brightness {0..6}\n"
-        "   --speed {0..4}\n"
+    printf("%s {backlight,sidelight} <effect>\n"
+        "   [--color primary,#ffffff[,rainbow]]\n"
+        "   [--color secondary,#ffffff[,rainbow]]\n"
+        "   [--brightness {0..6}]\n"
+        "   [--speed {0..4}]\n"
         "   [--direction {right,left,up,down}]\n"
         , program_name);
 }
