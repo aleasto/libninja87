@@ -2,6 +2,10 @@
 #include "ninja87/lights.h"
 
 int main(int argc, char* argv[]) {
+    libusb_device_handle* handle = open_ninja87();
+    if (!handle)
+        return 1;
+
     struct light_state backlight_state;
     light_state_init(&backlight_state, SRC_SIDELIGHT); // defaults to off
 
@@ -10,12 +14,12 @@ int main(int argc, char* argv[]) {
     light_state_set_color(&backlight_state, COLOR_SECONDARY, "#FFFFFF", RAINBOW_ON);
     light_state_set_speed(&backlight_state, 2);
     light_state_set_brightness(&backlight_state, 4);
-    apply_light_state(&backlight_state);
+    apply_state(handle, &backlight_state);
 
     sleep(2);
 
     light_state_off(&backlight_state);
-    apply_light_state(&backlight_state);
+    apply_state(handle, &backlight_state);
 
     return 0;
 }

@@ -5,17 +5,8 @@
 #include "libusb_helper.h"
 #include "ninja87/lights.h"
 
-#define VID_PID "0416:a0f8"
 #define BULK_EP_OUT 0x03
 #define INTERFACE 1
-
-libusb_device_handle* get_device() {
-    static libusb_device_handle* handle = NULL;
-    if (handle == NULL) {
-        handle = usb_open(VID_PID, INTERFACE);
-    }
-    return handle;
-}
 
 void light_state_init(struct light_state* state, enum LightSource source) {
     memset(state, 0, 32);
@@ -79,14 +70,14 @@ void light_state_set_direction(struct light_state* state, uint8_t direction) {
     state->direction = direction;
 }
 
-int apply_light_state(struct light_state* state) {
-    libusb_device_handle* handle = get_device();
-    if(handle) {
-        // TODO: CHECK IF STATE IS VALID
-        libusb_bulk_transfer(handle, BULK_EP_OUT, (uint8_t*)state, 32, NULL, 1000);
-        return 0;
-    }
+void apply_state(libusb_device_handle* handle, struct light_state* state) {
+    // TODO: CHECK IF VALID
+    libusb_bulk_transfer(handle, BULK_EP_OUT, (uint8_t*)state, 32, NULL, 1000);
+}
 
-    fprintf(stderr, "Could not apply state!\n");
-    return -1;
+libusb_device_handle* open_ninja87() {
+    libusb_device_handle* handle = usb_open("0416:a0f8", INTERFACE);
+    if (handle == NULL)
+        fprintf(stderr, "Error opening ninja87\n");
+    return handle;
 }

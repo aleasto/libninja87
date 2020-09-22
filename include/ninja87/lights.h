@@ -101,4 +101,5 @@ void light_state_set_color(struct light_state*, enum ColorType, char* color, enu
 void light_state_set_speed(struct light_state*, uint8_t speed);
 void light_state_set_brightness(struct light_state*, uint8_t brightness);
 void light_state_set_direction(struct light_state*, uint8_t direction);
-int apply_light_state(struct light_state*);
+void apply_state(libusb_device_handle*, struct light_state*);
+libusb_device_handle* open_ninja87();

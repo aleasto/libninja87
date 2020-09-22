@@ -18,6 +18,10 @@ static struct option long_options[] = {
 };
 
 int main(int argc, char* argv[]) {
+    libusb_device_handle* handle = open_ninja87();
+    if (!handle)
+        return 1;
+
     // At least 2 args, SOURCE and EFFECT
     if (argc < 3 || KEYNOTFOUND == enum_lookup(argv[1], LightSource_dictionary, NSOURCE)) {
         print_usage(argv[0]);
@@ -94,7 +98,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    apply_light_state(&state);
+    apply_state(handle, &state);
 
     return 0;
 }
