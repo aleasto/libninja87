@@ -1,3 +1,13 @@
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Linux)
+define add_ld_config
+	echo /usr/local/lib > /etc/ld.so.conf.d/ninja87.conf
+	@ldconfig
+endef
+endif
+
+
 libninja87: out/libninja87.so
 out/libninja87.so: ninja87.c include/**/*
 	@mkdir out 2>/dev/null || true
@@ -22,15 +32,14 @@ clean:
 install: libninja87 include/ninja87/*
 	cp out/libninja87.so /usr/local/lib/
 	cp -r include/ninja87 /usr/local/include/
-	echo /usr/local/lib > /etc/ld.so.conf.d/ninja87.conf
-	@ldconfig
+	$(call add_ld_config)
 	@echo ===== Installed libninja87 =====
 
 uninstall:
 	-rm /usr/local/lib/libninja87.so
 	-rm -rf /usr/local/include/ninja87
 	-rm /etc/ld.so.conf.d/ninja87.conf
-	@ldconfig
+	-@ldconfig
 	@echo ===== Uninstalled libninja87 =====
 
 .PHONY: libninja87 cli toy clean install uninstall
