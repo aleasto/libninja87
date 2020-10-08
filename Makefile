@@ -27,7 +27,7 @@ install: libninja87 include/ninja87/*
 	@echo ===== Installed libninja87 =====
 
 uninstall:
-	-rm /usr/local/lib/libninja87
+	-rm /usr/local/lib/libninja87.so
 	-rm -rf /usr/local/include/ninja87
 	-rm /etc/ld.so.conf.d/ninja87.conf
 	@ldconfig
