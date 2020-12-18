@@ -9,7 +9,7 @@ endif
 
 
 libninja87: out/libninja87.so
-out/libninja87.so: ninja87.c include/**/*
+out/libninja87.so: ninja87.c include/* include/**/*
 	@mkdir out 2>/dev/null || true
 	@gcc -o out/ninja87.o -c -fpic -Wall -Werror -Iinclude ninja87.c
 	@gcc -o out/libninja87.so -shared out/ninja87.o -lusb-1.0
