@@ -11,7 +11,7 @@
 void light_state_init(struct light_state* state, enum LightSource source) {
     memset(state, 0, 32);
 
-    memcpy(state->magic, (uint8_t[2]){ 0x06, 0xBE }, 2);
+    memcpy(state->magic, ((uint8_t[2]){ 0x06, 0xBE }), 2);
     state->source = source;
     state->transaction = STATE_OFF;
     state->on_bit = 0x0;
@@ -28,8 +28,8 @@ void light_state_off(struct light_state* state) {
     state->effect = 0xAF;
     state->speed = 0x0;
     state->brightness = 0x0;
-    memcpy(state->color1, (uint8_t[3]){0}, 3);
-    memcpy(state->color2, (uint8_t[3]){0}, 3);
+    memcpy(state->color1, ((uint8_t[3]){0}), 3);
+    memcpy(state->color2, ((uint8_t[3]){0}), 3);
 }
 
 void light_state_on(struct light_state* state, uint8_t effect) {
@@ -44,10 +44,10 @@ void light_state_set_color(struct light_state* state, enum ColorType type, char*
     sscanf(color, "#%02x%02x%02x", &r, &g, &b);
 
     if (type == COLOR_PRIMARY) {
-        memcpy(state->color1, (uint8_t[3]){ r, g, b }, 3);
+        memcpy(state->color1, ((uint8_t[3]){ r, g, b }), 3);
         state->color1_rainbow = rainbow;
     } else if (type == COLOR_SECONDARY) {
-        memcpy(state->color2, (uint8_t[3]){ r, g, b }, 3);
+        memcpy(state->color2, ((uint8_t[3]){ r, g, b }), 3);
         state->color2_rainbow = rainbow;
     } else {
         fprintf(stderr, "Unrecognised color type. Available are: COLOR_PRIMARY, COLOR_SECONDARY\n");
