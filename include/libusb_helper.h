@@ -27,8 +27,9 @@ libusb_device_handle* usb_open(char* vid_pid, int intf) {
     }
 
     err = libusb_claim_interface(handle, intf);
-    if (err < 0) {
-        printf("Error claiming interface %d: %s\n", intf, strerror(-err));
+    if (err != 0) {
+        printf("Error claiming interface %d: %s\n", intf, libusb_error_name(err));
+        return NULL;
     }
 
     return handle;
